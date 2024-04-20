@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import TableCoin from '../modules/TableCoin.jsx';
 import { getCoinsList } from '../services/cryptoAPI.js';
+import Pagination from '../modules/Pagination.jsx';
 
 function HomePage() {
 	const [coins, setCoins] = useState([]);
@@ -12,13 +13,21 @@ function HomePage() {
 			const res = await fetch(getCoinsList());
 			const json = await res.json();
 			setCoins(json);
-            setIsLoading(false)
+			setIsLoading(false);
 		};
 
 		getData();
 	}, []);
 
-	return <TableCoin coins={coins} isLoading={isLoading} />;
+	return (
+		<>
+			<Pagination />
+			<TableCoin
+				coins={coins}
+				isLoading={isLoading}
+			/>
+		</>
+	);
 }
 
 export default HomePage;
