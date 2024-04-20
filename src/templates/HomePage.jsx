@@ -1,23 +1,22 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react';
 
-import TableCoin from "../modules/TableCoin.jsx"
-import { getCoinsList } from "../services/cryptoAPI.js"
+import TableCoin from '../modules/TableCoin.jsx';
+import { getCoinsList } from '../services/cryptoAPI.js';
 
 function HomePage() {
-    const [coins, setCoins] = useState([])
+	const [coins, setCoins] = useState([]);
 
-    useEffect(() => {
+	useEffect(() => {
+		const getData = async () => {
+			const res = await fetch(getCoinsList());
+			const json = await res.json();
+			setCoins(json);
+		};
 
-        const getData = async () => {
-            const res = await (fetch(getCoinsList()))
-            const json = res.json()
-            setCoins(json)
-        }
-    }, [])
+		getData();
+	}, []);
 
-    return (
-        <TableCoin coins={ coins } />
-    )
+	return <TableCoin coins={coins} />;
 }
 
-export default HomePage
+export default HomePage;
