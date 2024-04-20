@@ -1,37 +1,63 @@
+import { RotatingLines } from 'react-loader-spinner';
+
 import chartUp from '../assets/chart-up.svg';
 import chartDown from '../assets/chart-down.svg';
 
-function TableCoin({ coins }) {
+function TableCoin({ coins, isLoading }) {
 	console.log(coins);
 	return (
 		<div>
-			<table>
-				<thead>
-					<tr>
-						<th>Coin</th>
-						<th>Name</th>
-						<th>Price</th>
-						<th>24h</th>
-						<th>Total Volume</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					{coins.map((coin) => (
-						<TableRow
-							coin={coin}
-							key={coin.id}
-						/>
-					))}
-				</tbody>
-			</table>
+			{isLoading ? (
+				<RotatingLines
+					visible={true}
+					height="96"
+					width="96"
+					strokeColor="#3874ff"
+					color="#3874ff"
+					strokeWidth="2"
+					animationDuration="0.75"
+					ariaLabel="rotating-lines-loading"
+					wrapperStyle={{}}
+					wrapperClass=""
+				/>
+			) : (
+				<table>
+					<thead>
+						<tr>
+							<th>Coin</th>
+							<th>Name</th>
+							<th>Price</th>
+							<th>24h</th>
+							<th>Total Volume</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{coins.map((coin) => (
+							<TableRow
+								coin={coin}
+								key={coin.id}
+							/>
+						))}
+					</tbody>
+				</table>
+			)}
 		</div>
 	);
 }
 
 export default TableCoin;
 
-const TableRow = ({ coin: { image, name,symbol,total_volume,current_price,price_change_percentage_24h:priceChange } }) => {
+const TableRow = ({
+	coin: {
+		image,
+		name,
+		symbol,
+		total_volume,
+		current_price,
+		price_change_percentage_24h: priceChange,
+	},
+}) => {
 	return (
 		<tr>
 			<td>
@@ -49,11 +75,7 @@ const TableRow = ({ coin: { image, name,symbol,total_volume,current_price,price_
 			<td>{total_volume.toLocaleString()}</td>
 			<td>
 				<img
-					src={
-						priceChange > 0
-							? chartUp
-							: chartDown
-					}
+					src={priceChange > 0 ? chartUp : chartDown}
 					alt={name}
 				/>
 			</td>
