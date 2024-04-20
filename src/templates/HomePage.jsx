@@ -23,14 +23,14 @@ function HomePage() {
 
 	return (
 		<>
-			<Pagination
-				page={page}
-				setPage={setPage}
-			/>
 			<TableCoin
 				coins={coins}
 				isLoading={isLoading}
 			/>
+			<Pagination
+				page={page}
+				setPage={setPage}
+                />
 		</>
 	);
 }
