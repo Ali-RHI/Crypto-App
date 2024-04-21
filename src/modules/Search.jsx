@@ -14,10 +14,13 @@ function Search({ currency, setCurrency }) {
 
 		if (!text) {
 			setIsLoading(false);
+			setCoins([]);
 			return;
 		}
 
 		const search = async () => {
+			setCoins([]);
+
 			try {
 				const res = await fetch(searchCoin(text), {
 					signal: controller.signal,
@@ -25,8 +28,8 @@ function Search({ currency, setCurrency }) {
 				const json = await res.json();
 				console.log(json);
 				if (json.coins) {
-					setIsLoading(false);
 					setCoins(json.coins);
+					setIsLoading(false);
 				} else {
 					alert(json.status.error_message);
 				}
@@ -59,6 +62,7 @@ function Search({ currency, setCurrency }) {
 				<option value="eur">EUR</option>
 				<option value="jpy">JPY</option>
 			</select>
+			{console.log('coins', !!coins.length, 'isloading: ', isLoading)}
 			{(!!coins.length || isLoading) && (
 				<div className={styles.searchResult}>
 					{isLoading && (
