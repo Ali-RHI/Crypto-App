@@ -62,7 +62,6 @@ function Search({ currency, setCurrency }) {
 				<option value="eur">EUR</option>
 				<option value="jpy">JPY</option>
 			</select>
-			{console.log('coins', !!coins.length, 'isloading: ', isLoading)}
 			{(!!coins.length || isLoading) && (
 				<div className={styles.searchResult}>
 					{isLoading && (

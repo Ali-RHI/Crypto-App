@@ -4,8 +4,9 @@ import styles from './TableCoin.module.css';
 
 import chartUp from '../assets/chart-up.svg';
 import chartDown from '../assets/chart-down.svg';
+import { marketChart } from '../services/cryptoAPI.js';
 
-function TableCoin({ coins, isLoading, currency }) {
+function TableCoin({ coins, isLoading, currency, setChart }) {
 	return (
 		<div className={styles.container}>
 			{isLoading ? (
@@ -36,6 +37,7 @@ function TableCoin({ coins, isLoading, currency }) {
 					<tbody>
 						{coins.map((coin) => (
 							<TableRow
+								setChart={setChart}
 								currency={currency}
 								coin={coin}
 								key={coin.id}
@@ -52,7 +54,9 @@ export default TableCoin;
 
 const TableRow = ({
 	currency,
+	setChart,
 	coin: {
+		id,
 		image,
 		name,
 		symbol,
@@ -61,10 +65,23 @@ const TableRow = ({
 		price_change_percentage_24h: priceChange,
 	},
 }) => {
+	const showHandler = async () => {
+		try {
+			const res = await fetch(marketChart(id));
+			const json = await res.json();
+			console.log(json);
+			setChart(json);
+		} catch (e) {
+			setChart(null);
+		}
+	};
+
 	return (
 		<tr>
 			<td>
-				<div className={styles.symbol}>
+				<div
+					className={styles.symbol}
+					onClick={showHandler}>
 					<img
 						src={image}
 						alt=""
