@@ -22,6 +22,13 @@ function Chart({ chart, setChart }) {
 				X
 			</span>
 			<div className={styles.chart}>
+				<div className={styles.name}>
+					<img
+						src={chart.coin.src}
+						alt=""
+					/>
+					<p>{chart.coin.name}</p>
+				</div>
 				<div className={styles.graph}>
 					<ChartComponent
 						data={convertData(chart, type)}
